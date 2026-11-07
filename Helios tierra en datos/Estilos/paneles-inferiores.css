@@ -1,0 +1,18 @@
+/* ===== PANELES INFERIORES ===== */
+.bottom{display:grid;grid-template-columns:1.1fr 1fr 1.15fr;gap:14px;padding:14px 20px 28px} /* tres columnas */
+.bottom h3{margin:0 0 12px;font-weight:500;font-size:17px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.lnk{background:none;border:0;color:#6ea8ff;cursor:pointer;text-decoration:underline;font-size:13px;padding:10px 0 10px 10px} /* "Ver todas": botón con aspecto de enlace y zona de toque amplia */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px} /* tres datos globales */
+.kpi{border:1px solid var(--line);border-radius:12px;padding:12px;background:#0a1424}
+.kpi span{color:var(--mut);font-size:13px}
+.kpi p{margin:10px 0 0;font-size:22px;font-weight:600}
+.al{list-style:none;margin:0;padding:0} /* lista de alertas */
+.al li{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid var(--line);font-size:13px}
+.al li span{flex:1;min-width:0} /* el texto ocupa el espacio y se parte en varias líneas si es largo */
+.al i{width:12px;height:12px;border-radius:50%;flex:none} /* puntico de color */
+.al em{margin-left:auto;color:var(--mut);font-style:normal;font-size:12px;white-space:nowrap} /* hora a la derecha */
+.inf{display:grid;grid-template-columns:1fr 130px;gap:14px} /* datos + foto */
+.irow{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:7px 0;font-size:13px}
+.irow span{color:var(--mut)}
+.photo{border-radius:10px;min-height:150px} /* "foto" hecha con degradado */
+#toast{position:fixed;left:50%;bottom:calc(24px + var(--sa-b));transform:translateX(-50%);background:#16305a;border:1px solid #2d5090;padding:10px 18px;border-radius:20px;opacity:0;transition:.3s;pointer-events:none;z-index:9;max-width:90vw;text-align:center} /* aviso oculto por defecto; no se sale de la pantalla ni tapa la barra del iPhone */

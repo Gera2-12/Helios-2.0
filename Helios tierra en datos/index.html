@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es" class="bv-abierta">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> <!-- ancho = pantalla del celular; viewport-fit=cover deja usar las zonas de la muesca (notch) con márgenes seguros -->
+<meta name="theme-color" content="#050b17">
+<meta name="color-scheme" content="dark">
+<link rel="icon" type="image/png" href="Recursos/media/logo.png"> <!-- icono de la pestaña (el tipo correcto es image/png) -->
+<title>HELIOS</title> 
+<link rel="stylesheet" href="Estilos/base.css"> 
+<link rel="stylesheet" href="Estilos/cabecera.css"> 
+<link rel="stylesheet" href="Estilos/tarjetas.css"> 
+<link rel="stylesheet" href="Estilos/paneles-inferiores.css"> 
+<link rel="stylesheet" href="Estilos/vistas.css"> 
+<link rel="stylesheet" href="Estilos/acerca.css">
+<link rel="stylesheet" href="Estilos/planeta.css"> 
+<link rel="stylesheet" href="Estilos/bienvenida.css"> 
+<link rel="stylesheet" href="Estilos/solo_planeta.css"> 
+<link rel="stylesheet" href="Estilos/login.css">
+<link rel="stylesheet" href="Estilos/responsive.css"> <!-- responsive siempre al final para que sus ajustes móviles tengan prioridad -->
+</head>
+<body>
+<noscript><style>.bienvenida{display:none}</style></noscript> 
+<div id="bienvenida" class="bienvenida" role="dialog" aria-modal="true" aria-labelledby="bv-titulo"> <!-- pantalla completa de bienvenida -->
+ <div class="bv-fondo" aria-hidden="true">
+  <video class="bv-media" autoplay muted loop playsinline preload="metadata"> <!-- autoplay muted playsinline: obligatorios para que el celular lo reproduzca solo -->
+   <source src="Recursos/media/fondo.mp4" type="video/mp4"> <!-- el video de fondo de la bienvenida -->
+  </video>
+
+  <div class="bv-velo"></div> 
+ </div>
+ <div class="bv-contenido">
+  <h1 id="bv-titulo"><img class="bv-logo" src="Recursos/media/logo-bienvenida.png" alt="HELIOS · La Tierra en datos"></h1> <!-- el logo ya trae el nombre y el subtítulo -->
+  <p class="bv-frase">Explora el clima y el calor extremo del planeta.</p> 
+  <button id="bv-entrar" class="bv-boton" type="button" disabled>Cargando…</button> 
+ </div>
+ <p class="bv-pie">Datos de Open-Meteo y NASA</p> <!-- línea pequeña al pie -->
+</div>
+
+<!-- Inicio de sesión: interfaz local de HELIOS -->
+<div id="login-modal" class="login-modal" hidden role="dialog" aria-modal="true" aria-labelledby="login-title">
+ <form id="login-form" class="login-card">
+  <img src="Recursos/media/logo.png" alt="" class="login-logo">
+  <h2 id="login-title">Entrar a HELIOS</h2>
+  <p>Ingresa con tu cuenta para continuar.</p>
+  <label for="login-user">Correo</label>
+  <input id="login-user" name="email" type="email" autocomplete="email" required maxlength="100" placeholder="ingrese correo">
+  <label for="login-pass">Contraseña</label>
+  <input id="login-pass" name="password" type="password" autocomplete="current-password" required maxlength="128" placeholder="Tu contraseña">
+  <button class="login-submit" type="submit">Iniciar sesión</button>
+  <button class="login-submit" type="button" id="login-registro">Crear cuenta</button>
+  <p id="login-message" class="login-message" role="status" aria-live="polite"></p>
+ </form>
+</div>
+
+<header> 
+ <div class="logo"><img src="Recursos/media/logo-cabecera.png" alt="HELIOS · La Tierra en datos"></div> <!-- logo de la cabecera --> 
+ <nav id="nav" aria-label="Secciones"></nav> 
+ <button id="btn-textura" class="btn-textura" type="button">🌍 <span class="pl">Planeta: </span>Temperatura</button> <!-- cambia SOLO la textura del planeta -->
+ <div class="search"> <!-- buscador superior -->
+  <input id="q" type="search" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Buscar región, país o ciudad…" aria-label="Buscar región, país o ciudad"> <!-- type=search + enterkeyhint: el teclado del celular muestra el botón "Buscar" -->
+  <button class="sb" id="qb" type="button" title="Buscar" aria-label="Buscar">🔍</button> <!-- lupa tocable -->
+ </div>
+</header>
+
+<main class="stage"> <!-- escenario: el planeta y los paneles -->
+ <div id="globe" aria-label="Planeta Tierra: arrastra para girarlo"></div> <!-- aquí Planeta.js dibuja la Tierra 3D -->
+ <svg id="lines" aria-hidden="true"> <!-- líneas y puntos sobre el planeta -->
+  <path id="l1" stroke="#ff4d3a"/><circle id="d1" r="5" fill="#fff" stroke="#ff4d3a" stroke-width="2"/> <!-- línea y punto de la tarjeta de calor -->
+  <path id="l2" stroke="#6ea8ff"/><circle id="d2" r="5" fill="#fff" stroke="#4d8dff" stroke-width="2"/> <!-- línea y punto de la tarjeta de frío -->
+ </svg>
+
+ <aside class="box regions"> <!-- regiones: en celular es una fila de botones que se desliza -->
+  <h3>🌐 Selecciona una región</h3>
+  <div class="search"> <!-- buscador del panel: filtra la lista -->
+   <input id="sq" type="search" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Buscar región o país…" aria-label="Buscar región o país">
+   <button class="sb" id="sb" type="button" title="Buscar" aria-label="Buscar">🔍</button>
+  </div>
+  <div id="list"></div> <!-- los botones de regiones los crea interfaz.js -->
+ </aside>
+
+ <section class="box tcard" id="hot"> 
+  <span class="badge">!</span><h4>Ecuador</h4>
+  <div class="row"><div class="blob"></div><div><div class="big">37°C</div><small>Sensación térmica</small><div class="big">40°C</div></div></div>
+ </section>
+
+ <section class="box tcard" id="cold">
+  <span class="badge">3</span><h4 id="cName">Rusia</h4> 
+  <div class="row"><div class="blob"></div><div>
+   <div class="big" id="cT">-2°C</div> 
+   <small>Sensación térmica</small>
+   <div class="big" id="cS" style="font-size:26px">-24°C</div> <!-- sensación térmica -->
+  </div></div>
+  <div class="cx"><span id="cC">Frío extremo</span><span id="cW"> — km/h</span></div> <!-- clima/humedad y viento -->
+ </section>
+
+ <section class="box legend"> <!-- leyenda de colores -->
+  <div>Temperatura actual (°C)</div><div class="bar"></div>
+  <div class="ticks"><span>-50</span><span>-30</span><span>-10</span><span>10</span><span>30</span><span>50</span></div>
+ </section>
+</main>
+
+<section class="bottom"> 
+ <div class="box"><h3>📊 Datos globales</h3> <!-- panel 1 -->
+  <div class="kpis">
+   <div class="kpi"><span>Temperatura promedio global</span><p>🌐 15.2 °C</p></div>
+   <div class="kpi"><span>Zona más cálida</span><p style="color:#ff5a3d">🌡️ 50.1 °C</p></div>
+   <div class="kpi"><span>Zona más fría</span><p style="color:#6ea8ff">❄️ -58.4 °C</p></div>
+  </div>
+ </div>
+ <div class="box"><h3>⚠️ Alertas recientes <button class="lnk" id="all" type="button">Ver todas</button></h3><ul class="al" id="al"></ul></div> <!-- panel 2: interfaz.js llena la lista -->
+ <div class="box"><h3>📊 Información de la región <small id="iN" style="color:var(--mut);font-size:12px"></small></h3> <!-- panel 3 -->
+  <div class="inf"><div>
+   <div class="irow"><span>🌡️ Temperatura actual</span><b id="iT"></b></div>
+   <div class="irow"><span>🌡️ Sensación térmica</span><b id="iS"></b></div>
+   <div class="irow"><span>☀️ Condición</span><b id="iC"></b></div>
+   <div class="irow"><span>ℹ️ Recomendaciones</span><b id="iR" style="font-weight:400"></b></div>
+  </div><div class="photo" id="ph"></div></div>
+ </div>
+</section>
+
+<section class="vista" id="v-clima" hidden> <!-- vista de la pestaña Clima global -->
+ <div class="box">
+  <h3>🌍 Clima global <button class="btn-act" id="act-clima" type="button">↻ Actualizar</button></h3>
+  <p class="estado" id="clima-estado"></p> <!-- mensajes: cargando, error, hora -->
+  <div class="kpis" id="clima-kpis"></div> <!-- promedio, más cálida, más fría -->
+  <div class="tabla-wrap"><table class="tabla">
+   <thead><tr><th>Ciudad</th><th>Temp.</th><th>Sensación</th><th>Viento</th><th>Clima</th></tr></thead>
+   <tbody id="clima-cuerpo"></tbody> <!-- las filas las crea vistas.js -->
+  </table></div>
+ </div>
+</section>
+
+<section class="vista" id="v-alertas" hidden> 
+
+ <div class="box">
+  <h3>⚠️ Alertas <button class="btn-act" id="act-alertas" type="button">↻ Actualizar</button></h3>
+  <p class="estado" id="alertas-estado"></p> <!-- cargando / error / hora -->
+  <ul class="al" id="alertas-lista"></ul> <!-- lista de alertas -->
+ </div>
+
+ <div class="box">
+  <h3>🛰️ Cambio climático · datos de la NASA</h3>
+  <div class="datos-nasa">
+   <div class="dn"> <!-- indicador 1 -->
+    <span>🌡️ Temperatura global (2025)</span>
+    <b style="color:#ff5a3d">+1.19 °C</b> <!-- respecto al promedio 1951–1980 -->
+    <p>sobre el promedio de 1951–1980. El 2024 sigue siendo el año más cálido y los 10 años más recientes son los más cálidos del registro.</p>
+    <a href="https://science.nasa.gov/earth/explore/earth-indicators/global-temperature/" target="_blank" rel="noopener noreferrer">NASA · Temperatura global ↗</a>
+   </div>
+   <div class="dn"> <!-- indicador 2 -->
+    <span>💨 Dióxido de carbono (jul. 2025)</span>
+    <b style="color:#ff9a2e">428 ppm</b>
+    <p>La actividad humana ha aumentado el CO₂ de la atmósfera cerca de un 50 % desde la era industrial (1750).</p>
+    <a href="https://earth.gov/sealevel/vital-signs/carbon-dioxide/" target="_blank" rel="noopener noreferrer">NASA · Dióxido de carbono ↗</a>
+   </div>
+   <div class="dn"> <!-- indicador 3 -->
+    <span>🌊 Nivel del mar (ago. 2025)</span>
+    <b style="color:#6ea8ff">+93 mm</b>
+    <p>de subida desde 1993, medida por satélites. Se debe al agua del hielo que se derrite y a la expansión del agua al calentarse.</p>
+    <a href="https://earth.gov/sealevel/vital-signs/sea-level/" target="_blank" rel="noopener noreferrer">NASA · Nivel del mar ↗</a>
+   </div>
+  </div>
+  <p class="nota">Cifras publicadas por la NASA en las fechas indicadas. Las páginas fuente se actualizan, así que ahí está siempre el dato más reciente.</p>
+ </div>
+
+ <!-- 3) AGRICULTURA -->
+ <div class="box">
+  <h3>🌾 ¿Cómo afecta el cambio climático a la agricultura?</h3>
+  <div class="datos-nasa">
+   <div class="dn">
+    <span>🌽 Maíz</span>
+    <b style="color:#ff5a3d">−24 %</b>
+    <p>de rendimiento al final del siglo en un escenario de emisiones altas, con efectos visibles desde alrededor de 2030. Será más difícil cultivarlo en el trópico.</p>
+   </div>
+   <div class="dn">
+    <span>🌾 Trigo</span>
+    <b style="color:#7fe0a8">+17 %</b>
+    <p>en el mismo escenario: crece en zonas templadas como el norte de EE. UU., Canadá y China. Pero esas ganancias del norte no compensan las pérdidas de maíz en el sur global.</p>
+   </div>
+   <div class="dn">
+    <span>🍚 Soya y arroz</span>
+    <b style="color:#ff9a2e">Bajan en algunas regiones</b>
+    <p>Los modelos no coinciden del todo a escala global, pero señalan descensos en ciertas zonas.</p>
+   </div>
+  </div>
+  <p class="nota">Qué lo causa: más temperatura, cambios en las lluvias y más CO₂ (que ayuda sobre todo al trigo). Son proyecciones de un estudio de la NASA publicado en <i>Nature Food</i> (2021), no mediciones de hoy; los resultados dependen del escenario de emisiones.</p>
+  <ul class="fuentes">
+   <li><a href="https://www.nasa.gov/earth-and-climate/global-climate-change-impact-on-crops-expected-within-10-years-nasa-study-finds/" target="_blank" rel="noopener noreferrer">NASA · Estudio sobre el impacto en los cultivos ↗</a></li>
+   <li><a href="https://www.nasaharvest.org/" target="_blank" rel="noopener noreferrer">NASA Harvest · programa de seguridad alimentaria y agricultura con satélites ↗</a></li>
+  </ul>
+ </div>
+
+ <!-- 4) FUENTES DE DATOS -->
+ <div class="box">
+  <h3>🔗 Fuentes de datos abiertos</h3>
+  <ul class="fuentes">
+   <li><a href="https://data.giss.nasa.gov/gistemp/" target="_blank" rel="noopener noreferrer">NASA GISS · GISTEMP: base de datos de temperatura global desde 1880 ↗</a></li>
+   <li><a href="https://science.nasa.gov/earth/explore/earth-indicators/global-temperature/" target="_blank" rel="noopener noreferrer">NASA · Indicadores de la Tierra ↗</a></li>
+   <li><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo · clima en vivo usado en las alertas ↗</a></li>
+  </ul>
+ </div>
+
+</section>
+
+<section class="vista" id="v-acerca" hidden> <!-- vista de la pestaña Acerca de -->
+
+ <div class="box hero"> <!-- portada: logo + nombre + frase -->
+  <img class="hero-logo" src="Recursos/media/logo-acerca.png" alt=""> <!-- logo del satélite; alt vacío porque "HELIOS" ya está al lado -->
+  <div>
+   <h2>HELIOS <small>v2.0</small></h2> <!-- nombre y versión -->
+   <p>La Tierra en datos: una plataforma para ver y entender el clima y el calor extremo del planeta, en un globo 3D que puedes girar con el dedo.</p>
+  </div>
+ </div>
+
+ <div class="box"> <!-- misión -->
+  <h3>🎯 Nuestra misión</h3>
+  <p class="texto">Que cualquier persona pueda ver, en segundos, qué tan caliente o frío está el mundo, y entender por qué importa: desde el clima de tu ciudad hasta el cambio climático y su efecto en la agricultura.</p>
+ </div>
+
+ <div class="box"> <!-- qué se puede hacer -->
+  <h3>✨ ¿Qué puedes hacer aquí?</h3>
+  <div class="datos-nasa sm"> <!-- cuadrícula de tarjetas (reutiliza el estilo de las tarjetas de la NASA) -->
+   <div class="dn"><b>🌍 Explorar el planeta</b><p>Gira el globo, elige una región y cambia su aspecto: temperatura, satélite, noche o día.</p></div>
+   <div class="dn"><b>🔎 Buscar cualquier lugar</b><p>Escribe una ciudad o un país y mira su temperatura, sensación térmica, humedad, clima y viento en vivo.</p></div>
+   <div class="dn"><b>📊 Clima global</b><p>Un ranking en vivo de 18 ciudades del mundo, de la más cálida a la más fría.</p></div>
+   <div class="dn"><b>⚠️ Alertas</b><p>Avisos de calor, frío, viento y tormentas calculados con datos reales, más cifras de la NASA sobre cambio climático y agricultura.</p></div>
+  </div>
+ </div>
+
+ <div class="box"> <!-- origen de los datos -->
+  <h3>🗂️ De dónde salen los datos</h3>
+  <ul class="fuentes">
+   <li><b>Clima en vivo:</b> <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo ↗</a> (temperatura, sensación térmica, humedad, viento y estado del tiempo).</li>
+   <li><b>Cambio climático y agricultura:</b> cifras y estudios de la <a href="https://science.nasa.gov/earth/explore/earth-indicators/global-temperature/" target="_blank" rel="noopener noreferrer">NASA ↗</a>, con el enlace a cada fuente en la pestaña Alertas.</li>
+   <li><b>Imágenes del planeta:</b> texturas de ejemplo del proyecto <a href="https://github.com/vasturiano/three-globe" target="_blank" rel="noopener noreferrer">three-globe ↗</a>.</li>
+  </ul>
+  <p class="aviso"><b>Ojo:</b> las regiones, las tarjetas de ejemplo, «Datos globales» y «Alertas recientes» de la pantalla de Inicio usan valores aproximados de ejemplo, no mediciones en tiempo real. Los datos en vivo están en la búsqueda, en Clima global y en Alertas.</p>
+ </div>
+
+ <div class="box"> <!-- tecnologías -->
+  <h3>🛠️ Cómo está hecha</h3>
+  <div> <!-- etiquetas de tecnologías -->
+   <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span><span class="chip">three.js (planeta 3D)</span><span class="chip">API de Open-Meteo</span><span class="chip">Diseño para celular</span>
+  </div>
+ </div>
+
+ <div class="box"> 
+  <h3>👥 Equipo</h3>
+  <ul class="fuentes">
+   <li><b>HELIOS</b> · proyecto presentado en el hackathon de programación</li> <!-- EDITA AQUÍ -->
+   <li>Gerardo Jesus Rojas Milla · desarrollador de software</li>
+   <li>Gisseth Vanesa Rosado Pescador · investigadora</li> 
+   <li>para mas Información visite nuestra pagina principal</li> 
+  </ul>
+ </div>
+
+ <p class="nota">HELIOS es un proyecto educativo. No reemplaza los avisos oficiales de los servicios meteorológicos: ante una alerta real, consulta a las autoridades de tu país.</p>
+</section>
+
+<button id="btn-solo" class="btn-solo" type="button" aria-pressed="false" aria-label="Ocultar la información y ver solo el planeta">🪐 <span>Solo planeta</span></button> <!-- botón flotante: oculta toda la información y deja solo el planeta -->
+
+<div id="toast" role="status" aria-live="polite"></div> <!-- aviso emergente (lo leen los lectores de pantalla) -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> <!-- librería 3D -->
+
+<!-- ORDEN IMPORTANTE: cada grupo usa lo que entregan los anteriores (mira la cabecera de cada archivo) -->
+<script src="Javascript/nucleo/config.js"></script> <!-- 1) atajos y ajustes -->
+<script src="Javascript/nucleo/datos.js"></script>
+<script src="Javascript/nucleo/continentes.js"></script>
+
+<script src="Javascript/planeta/textura.js"></script> <!-- 2) el planeta 3D -->
+<script src="Javascript/planeta/escena.js"></script>
+<script src="Javascript/planeta/marcadores.js"></script>
+<script src="Javascript/planeta/animacion.js"></script>
+<script src="Javascript/planeta/boton-textura.js"></script>
+
+<script src="Javascript/clima/codigos.js"></script> <!-- 3) clima en vivo (Open-Meteo) -->
+<script src="Javascript/clima/api.js"></script>
+<script src="Javascript/clima/ciudades.js"></script>
+
+<script src="Javascript/ui/toast.js"></script> <!-- 4) interfaz de Inicio -->
+<script src="Javascript/ui/tarjeta.js"></script>
+<script src="Javascript/ui/regiones.js"></script>
+<script src="Javascript/ui/alertas-recientes.js"></script>
+<script src="Javascript/ui/buscador.js"></script>
+<script src="Javascript/ui/pestanas.js"></script>
+
+<script src="Javascript/vistas/clima-global.js"></script> <!-- 5) pestañas -->
+<script src="Javascript/vistas/alertas.js"></script>
+<script src="Javascript/vistas/navegacion.js"></script>
+<script src="Javascript/ui/solo-planeta.js"></script> <!-- botón "Solo planeta" (usa abrirVista y size) -->
+
+<script src="Javascript/main.js"></script> <!-- 6) arranque -->
+<script src="Javascript/bienvenida.js"></script>
+<script type="module" src="Javascript/ui/login.js"></script>
+</body>
+</html>

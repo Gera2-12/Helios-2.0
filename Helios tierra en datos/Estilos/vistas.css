@@ -1,0 +1,23 @@
+/* ===== VISTAS: CLIMA GLOBAL Y ALERTAS ===== */
+.vista{padding:14px 20px 28px;max-width:1100px;margin:0 auto} /* contenedor de las vistas */
+.vista .box + .box{margin-top:14px} /* separa un panel del siguiente */
+.vista h3{margin:0 0 12px;font-weight:500;font-size:17px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px} /* título y botón Actualizar (se acomodan si no caben) */
+.btn-act{background:#16305a;border:1px solid #2d5090;color:var(--tx);border-radius:20px;padding:10px 16px;font-size:13px;cursor:pointer;min-height:40px} /* botón Actualizar */
+.estado{margin:0 0 12px;color:var(--mut);font-size:13px} /* línea de estado */
+.vista .kpis{margin-bottom:14px}
+.vista a{color:#6ea8ff;text-decoration:none;overflow-wrap:anywhere} /* enlaces; los largos se parten en vez de salirse */
+.tabla-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch} /* si hiciera falta, la tabla se desliza de lado */
+.tabla{width:100%;border-collapse:collapse;font-size:13px} /* tabla sin bordes dobles */
+.tabla th{text-align:left;color:var(--mut);font-weight:500;padding:8px;border-bottom:1px solid var(--line)} /* encabezados */
+.tabla td{padding:12px 8px;border-bottom:1px solid var(--line);white-space:nowrap} /* celdas */
+.tabla tbody tr{cursor:pointer} /* las filas se pueden tocar */
+.tabla td small{color:var(--mut)} /* país en gris */
+.datos-nasa{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:12px} /* tarjetas en cuadrícula; min(...,100%) evita que se salgan en pantallas angostas */
+.dn{border:1px solid var(--line);border-radius:12px;padding:14px;background:#0a1424} /* cada tarjeta de dato */
+.dn span{color:var(--mut);font-size:13px} /* título pequeño y gris */
+.dn b{display:block;font-size:clamp(20px,6vw,26px);margin:6px 0;overflow-wrap:anywhere} /* la cifra grande: se achica un poco en pantallas angostas */
+.dn p{margin:0 0 10px;font-size:13px;line-height:1.45} /* explicación */
+.dn a{font-size:12px;display:inline-block;padding:6px 0} /* enlace de la fuente con zona de toque más alta */
+.nota{margin:12px 0 0;color:var(--mut);font-size:12px;line-height:1.45} /* aclaraciones al pie */
+.fuentes{list-style:none;margin:12px 0 0;padding:0} /* lista de enlaces sin viñetas */
+.fuentes li{padding:12px 0;border-top:1px solid var(--line);font-size:13px} /* cada enlace con línea arriba y alto cómodo */

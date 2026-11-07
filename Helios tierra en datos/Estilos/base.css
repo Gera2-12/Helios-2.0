@@ -1,0 +1,9 @@
+
+:root{--line:#1c2e4a;--tx:#e8eefb;--mut:#8ea3c4;--acc:#ff9a2e;color-scheme:dark;--sa-t:env(safe-area-inset-top,0px);--sa-r:env(safe-area-inset-right,0px);--sa-b:env(safe-area-inset-bottom,0px);--sa-l:env(safe-area-inset-left,0px)} /* colores reutilizables + márgenes seguros de la muesca (notch) del celular */
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent} /* el padding no agranda las cajas; sin destello gris al tocar */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%} /* el celular no agranda el texto por su cuenta al girar */
+body{margin:0;background:radial-gradient(ellipse at 50% 25%,#0b1a33,#050b17 70%) #050b17;color:var(--tx);font:14px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden;padding:var(--sa-t) var(--sa-r) var(--sa-b) var(--sa-l)} /* fondo espacial, letra, sin scroll lateral y respetando la muesca */
+button{touch-action:manipulation;font:inherit} /* sin zoom por doble toque y sin retraso al tocar */
+
+
+[hidden]{display:none!important} /* hace que "hidden" oculte de verdad, aunque el elemento tenga display propio */

@@ -1,0 +1,29 @@
+
+/* ===== PANELES FLOTANTES ===== */
+.box{background:linear-gradient(#0d1a2e,#091322);border:1px solid var(--line);border-radius:16px;padding:16px;position:relative} /* tarjeta base */
+.regions{position:absolute;left:0;top:10px;width:300px;z-index:2} /* panel de regiones a la izquierda */
+.regions h3{margin:0 0 12px;font-weight:500;font-size:17px}
+.regions .search{background:#0b1424;border:1px solid var(--line);border-radius:10px;margin-bottom:10px} /* buscador del panel */
+.rg{display:flex;gap:10px;align-items:center;width:100%;padding:12px;border:0;border-radius:8px;background:none;color:var(--tx);text-align:left;cursor:pointer} /* botón de región */
+.rg.on{background:#16305a;box-shadow:0 0 0 1px #2d5090 inset} /* región seleccionada */
+.rg.on::after{content:"›";margin-left:auto} /* flechita a la derecha */
+.tcard{position:absolute;width:250px;z-index:2} /* tarjetas de temperatura */
+.tcard h4{margin:0 0 10px;font-size:22px;font-weight:500;overflow-wrap:anywhere} /* nombres largos de ciudad se parten en vez de salirse */
+.tcard .row{display:flex;gap:14px;align-items:center}
+.blob{width:96px;height:110px;flex:none;clip-path:polygon(40% 0,70% 8%,100% 30%,85% 60%,95% 90%,60% 100%,30% 85%,0 60%,10% 30%)} /* forma irregular de la "región" */
+.big{font-size:34px;font-weight:600;line-height:1.1} /* números grandes */
+.tcard small{display:block;color:var(--mut)}
+.badge{position:absolute;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;font-weight:700;font-size:20px;background:#0a1425} /* círculo con ! o número */
+#hot{left:185px;bottom:50px;border-color:#a3302a;box-shadow:0 0 18px #ff3d2a33} /* tarjeta roja */
+#hot .blob{background:linear-gradient(135deg,#ff7a4d,#c01808 60%,#ff9a5a)}
+#hot .big{color:#ff5a3d}
+#hot .badge{right:-14px;top:-18px;border:2px solid #ff4d3a;color:#ff4d3a}
+#cold{right:0;top:10px;width:320px;border-color:#1f4f9a} /* tarjeta azul */
+#cold h4{margin-left:44px}
+#cold .blob{background:linear-gradient(135deg,#8bb6ff,#16409c 60%,#4d8dff)}
+#cold .big{color:#6ea8ff}
+#cold .badge{left:-10px;top:-12px;border:2px solid #4d8dff;color:#e8eefb}
+.cx{display:flex;justify-content:space-between;gap:10px;margin-top:10px;color:var(--mut);font-size:13px} /* clima a la izquierda, viento a la derecha */
+.legend{position:absolute;right:0;bottom:60px;width:310px;z-index:2} /* leyenda abajo a la derecha */
+.bar{height:14px;border-radius:8px;background:linear-gradient(90deg,#0a2fd0,#2a8bff,#35d6c0,#f7e23a,#ff8a1f,#e01010);margin:12px 0 6px} /* barra de colores */
+.ticks{display:flex;justify-content:space-between;color:var(--mut);font-size:12px} /* números -50...50 */

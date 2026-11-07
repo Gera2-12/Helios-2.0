@@ -1,0 +1,11 @@
+Aquí van los archivos de fondo de la pantalla de bienvenida.
+Nombres que espera index.html (puedes cambiarlos en el bloque <video> de index.html):
+
+  fondo.mp4   -> video para todos los celulares y navegadores (H.264)
+  fondo.webm  -> versión más liviana (opcional; el navegador la usa si puede)
+  fondo.jpg   -> imagen que se ve mientras carga el video o si el celular bloquea la reproducción
+
+Consejos para celular:
+  - Que el video pese menos de 3-5 MB, dure 8-15 segundos y no tenga sonido.
+  - Resolución recomendada: 720p (1280x720) o vertical 720x1280.
+  - Si prefieres un GIF, usa la etiqueta <img> que está comentada en index.html.

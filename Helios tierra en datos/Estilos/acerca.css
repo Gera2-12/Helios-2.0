@@ -1,0 +1,13 @@
+.hero{display:flex;align-items:center;gap:16px} /* portada: logo a la izquierda y texto a la derecha */
+.hero-logo{width:96px;height:auto;flex:none} /* logo del satélite; flex:none evita que se aplaste */
+.hero h2{margin:0 0 6px;font-size:26px;font-weight:500;letter-spacing:.3em} /* nombre con letras separadas, como el logo */
+.hero h2 small{font-size:12px;letter-spacing:.05em;color:var(--acc);margin-left:6px} /* versión en naranja */
+.hero p{margin:0;color:var(--mut);line-height:1.5} /* frase en gris */
+.texto{margin:0;line-height:1.55} /* párrafos de lectura */
+.datos-nasa.sm .dn b{font-size:17px;margin:0 0 8px} /* en "Qué puedes hacer" el título es más pequeño que las cifras de la NASA */
+.chip{display:inline-block;padding:8px 14px;margin:0 8px 8px 0;border:1px solid var(--line);border-radius:18px;background:#0a1424;color:var(--mut);font-size:13px} /* etiqueta de tecnología */
+.aviso{margin:14px 0 0;padding:12px 14px;border-left:3px solid var(--acc);background:#0a1424;border-radius:8px;font-size:13px;line-height:1.5} /* recuadro de aclaración */
+@media(max-width:480px){
+ .hero{flex-direction:column;align-items:flex-start} /* en celular angosto, el anillo va arriba del texto */
+ .hero h2{font-size:22px}
+}

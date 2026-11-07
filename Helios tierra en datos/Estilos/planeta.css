@@ -1,0 +1,21 @@
+/* ===== ESCENARIO Y PLANETA ===== */
+.stage{position:relative;height:640px;margin:0 20px} /* PC: zona donde flotan el planeta y los paneles */
+#globe{position:absolute;inset:0;min-width:0;overflow:hidden;cursor:grab;touch-action:pan-y;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none} /* llena el escenario; pan-y = el dedo en vertical hace scroll de la página y en horizontal gira el planeta; sin selección de texto ni menú al mantener presionado; min-width:0 + overflow:hidden evitan que el lienzo ensanche la página al girar el celular */
+#globe canvas{display:block;outline:none} /* sin hueco extra debajo del lienzo */
+#lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3;overflow:visible} /* capa de líneas y puntos encima del planeta, sin bloquear los toques */
+#lines path{fill:none;stroke-width:1.5} /* grosor de las líneas */
+
+/* ===== TABLETA Y CELULAR (1024px o menos; coincide con ESCRITORIO en DatosAproximados.js) ===== */
+@media(max-width:1024px){
+ .stage{height:auto;margin:0 12px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px} /* los paneles se apilan en una cuadrícula de 2 columnas; minmax(0,1fr) impide que el contenido ancho (la fila de regiones) ensanche la columna más que la pantalla */
+ .stage > *{min-width:0} /* ningún panel puede ser más ancho que su columna */
+ #globe{position:relative;grid-column:1/-1;height:min(88vw,70vh,460px);height:min(88vw,70dvh,460px)} /* el planeta es un bloque casi cuadrado, sin pasar de 70% del alto de la pantalla (cabe al girar el celular) */
+ .stage > .regions,.stage > .legend{grid-column:1/-1} /* regiones y leyenda ocupan todo el ancho */
+ .regions{order:1} /* orden en celular: planeta, regiones, resultado de búsqueda, tarjeta de calor, leyenda */
+ #cold{order:2}
+ #hot{order:3}
+ .legend{order:4}
+}
+@media(max-width:600px){
+ .stage{grid-template-columns:minmax(0,1fr)} /* en celular, una sola columna */
+}

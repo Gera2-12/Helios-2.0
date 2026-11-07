@@ -1,0 +1,14 @@
+header{display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:14px 20px} /* fila con logo, pestañas, botón de textura y buscador */
+.logo{display:flex;align-items:center;gap:12px;order:1} /* anillo + texto en línea */
+.logo img{display:block;height:46px;width:auto;max-width:100%} /* imagen del logo: alto fijo y el ancho se ajusta solo para no deformarla */
+nav{order:2;display:flex;gap:4px;padding:6px;border:1px solid var(--line);border-radius:30px;background:#0a1425;overflow-x:auto;max-width:100%;scrollbar-width:none;-webkit-overflow-scrolling:touch} /* contenedor tipo píldora; se desliza de lado si no cabe */
+nav::-webkit-scrollbar{display:none} /* oculta la barra de desplazamiento en Chrome/Safari */
+nav button{background:none;border:0;color:var(--tx);padding:12px 14px;border-radius:24px;cursor:pointer;white-space:nowrap;flex:none} /* cada pestaña (alto cómodo para el dedo: ~44px) */
+nav button.on{background:linear-gradient(#1f3a66,#122644);box-shadow:0 0 0 1px #2d5090 inset} /* pestaña activa */
+.btn-textura{order:3;padding:12px 18px;color:#fff;background:rgba(10,20,40,.75);border:1px solid rgba(255,255,255,.35);border-radius:24px;cursor:pointer;white-space:nowrap;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)} /* botón de textura */
+.btn-textura:disabled{opacity:.6;cursor:wait} /* mientras carga la textura */
+.search{display:flex;align-items:center;gap:6px;background:#0e1a2e;border-radius:24px;padding:3px 6px 3px 16px;min-height:46px} /* caja de búsqueda (alto cómodo para el dedo) */
+header .search{order:4;margin-left:auto;min-width:220px} /* el buscador superior va a la derecha */
+.search input{background:none;border:0;outline:0;color:var(--tx);font:inherit;width:100%;min-width:0;-webkit-appearance:none;appearance:none} /* input sin borde */
+.search input::-webkit-search-cancel-button{-webkit-appearance:none} /* quita la "x" nativa de Safari/Chrome */
+.sb{background:none;border:0;color:var(--tx);cursor:pointer;font-size:16px;padding:0;width:40px;height:40px;display:grid;place-items:center;flex:none} /* lupa tocable de 40x40 */

@@ -1,0 +1,20 @@
+html.bv-abierta,html.bv-abierta body{overflow:hidden} /* mientras está la bienvenida, la página de atrás no se desliza */
+.bienvenida{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;background:radial-gradient(ellipse at 50% 30%,#0b1a33,#02050d 75%);padding:calc(24px + env(safe-area-inset-top,0px)) calc(24px + env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) calc(24px + env(safe-area-inset-left,0px));transition:opacity .6s ease,visibility .6s} /* cubre toda la pantalla (respetando la muesca); el degradado es el fondo de respaldo si el video no carga */
+.bienvenida[hidden]{display:none} /* ya cerrada: desaparece del todo */
+.bienvenida.bv-saliendo{opacity:0;visibility:hidden;pointer-events:none} /* al entrar: se desvanece */
+.bv-fondo{position:absolute;inset:0;overflow:hidden} /* zona del video o GIF de fondo */
+.bv-media{width:100%;height:100%;object-fit:cover;display:block} /* el video/GIF llena la pantalla sin deformarse */
+.bv-velo{position:absolute;inset:0;background:linear-gradient(rgba(2,5,13,.55),rgba(2,5,13,.3) 40%,rgba(2,5,13,.8))} /* capa oscura para que el texto se lea sobre cualquier video */
+.bv-contenido{position:relative;display:flex;flex-direction:column;align-items:center;max-width:480px} /* el texto y el botón, encima del fondo */
+.bv-contenido h1{margin:0;line-height:0} /* el título ahora solo contiene la imagen; line-height 0 evita un hueco debajo */
+.bv-logo{width:min(68vw,260px);height:auto;display:block} /* el logo mide 68% del ancho de la pantalla, con tope de 260px */
+.bv-frase{margin:22px 0 0;font-size:16px;line-height:1.5;color:#e8eefb} /* frase de bienvenida */
+.bv-boton{margin-top:30px;min-width:200px;min-height:52px;padding:14px 40px;border:0;border-radius:30px;background:#ff9a2e;color:#1a0d00;font:inherit;font-size:17px;font-weight:600;cursor:pointer;touch-action:manipulation;box-shadow:0 0 0 0 rgba(255,154,46,.6);animation:bv-pulso 2.2s infinite} /* botón Entrar: alto cómodo para el dedo y pulso suave */
+.bv-boton:disabled{opacity:.6;cursor:wait;animation:none} /* mientras la página carga */
+.bv-boton:focus-visible{outline:3px solid #fff;outline-offset:3px} /* contorno visible para quien navega con teclado */
+.bv-pie{position:absolute;bottom:calc(16px + env(safe-area-inset-bottom,0px));left:0;right:0;margin:0;font-size:11px;color:rgba(255,255,255,.6)} /* línea pequeña al pie */
+@keyframes bv-pulso{70%{box-shadow:0 0 0 16px rgba(255,154,46,0)}100%{box-shadow:0 0 0 0 rgba(255,154,46,0)}} /* anillo que se expande alrededor del botón */
+@media(prefers-reduced-motion:reduce){ /* si la persona pidió menos animaciones */
+ .bv-boton{animation:none}
+ .bienvenida{transition:none}
+}

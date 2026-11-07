@@ -1,0 +1,45 @@
+HELIOS
+================================
+
+index.html            la pagina (estructura) y la lista ordenada de CSS y scripts
+Estilos/              todo el CSS, un archivo por parte de la pagina
+Javascript/           todo el codigo, una carpeta por tema
+Recursos/media/       aqui van tu video/GIF de fondo y futuras imágenes o iconos
+
+ESTILOS (Estilos/)                          JAVASCRIPT (Javascript/)
+------------------                          ------------------------
+base.css                variables, cuerpo   nucleo/    config.js · datos.js · continentes.js
+cabecera.css            logo, pestañas      planeta/   textura.js · escena.js · marcadores.js
+tarjetas.css            regiones, tarjetas             animacion.js · boton-textura.js
+paneles-inferiores.css  paneles de abajo    clima/     codigos.js · api.js · ciudades.js
+vistas.css              Clima global/Alertas ui/       toast.js · tarjeta.js · regiones.js
+acerca.css              Acerca de                      alertas-recientes.js · buscador.js · pestanas.js
+responsive.css          celular y tableta   vistas/    clima-global.js · alertas.js · navegacion.js
+planeta.css             escenario           main.js        arranque
+bienvenida.css          bienvenida          bienvenida.js  pantalla de bienvenida
+
+DE DÓNDE SALIÓ CADA ARCHIVO ANTERIOR
+------------------------------------
+style.css             -> Estilos/base, cabecera, tarjetas, paneles-inferiores, vistas, acerca, responsive
+Recursos/Planeta.css  -> Estilos/planeta.css          Recursos/Bienvenida.css -> Estilos/bienvenida.css
+Recursos/Planeta.js   -> Javascript/planeta/ (5 archivos)
+DatosAproximados.js   -> Javascript/nucleo/ (3 archivos)
+API-open_mateo.js     -> Javascript/clima/codigos.js + api.js, y Javascript/ui/tarjeta.js (mostrar)
+vistas.js             -> Javascript/clima/ciudades.js y Javascript/vistas/ (3 archivos)
+interfaz.js           -> Javascript/ui/ (toast, regiones, alertas-recientes, buscador, pestanas) y main.js
+
+¿DÓNDE TOCO PARA...?
+--------------------
+Cambiar el texto/ejemplos de Inicio ............ Javascript/nucleo/datos.js
+Agregar una ciudad al Clima global ............. Javascript/clima/ciudades.js (lista CIUDADES)
+Agregar una textura al planeta ................. Javascript/planeta/boton-textura.js (lista TEXTURAS)
+Cambiar umbrales de las alertas ................ Javascript/vistas/alertas.js
+Habilitar otra pestaña (Tendencias, Agricultura) Javascript/ui/pestanas.js (DISPONIBLES) + Javascript/vistas/navegacion.js + una <section> en index.html
+Cambiar colores .............................. Estilos/base.css (variables) y el CSS de cada parte
+Saltarte la bienvenida mientras programas ...... Javascript/bienvenida.js (MOSTRAR_BIENVENIDA = false)
+
+REGLAS DEL ORDEN
+----------------
+1. Cada archivo .js empieza con una cabecera: "Qué hace / Necesita / Entrega".
+2. En index.html los scripts van en el orden de los grupos 1 a 7: lo que un archivo "Necesita" debe cargarse antes.
+3. responsive.css siempre va después de los demás CSS (sus reglas deben ganar).
